@@ -11,6 +11,8 @@
     <string name="price_sample">15 EUR</string>
     <string name="published_date_and_publisher_sample">Lafond on 12/04/2015</string>
     <string name="isbn_sample">1542484569842</string>
+    <string name="reviews_label">Reviews</string>
+
 
     <array name="book_images">
         <item>@drawable/adult_blur_books</item>

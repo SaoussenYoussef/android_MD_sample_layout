@@ -24,6 +24,16 @@ public class VolumeInfo implements Serializable {
     private String infoLink;
     private String canonicalVolumeLink;
     private String description;
+    private String ratingsCount;
+    private double averageRating;
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
 
     public String getDescription() {
         return description;
@@ -35,6 +45,14 @@ public class VolumeInfo implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getRatingsCount() {
+        return ratingsCount;
+    }
+
+    public void setRatingsCount(String ratingsCount) {
+        this.ratingsCount = ratingsCount;
     }
 
     public void setTitle(String title) {

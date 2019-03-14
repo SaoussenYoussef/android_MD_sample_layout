@@ -7,6 +7,15 @@ public class SaleInfo implements Serializable {
     private String country;
     private String saleability;
     private boolean isEbook;
+    private RetailPrice retailPrice;
+
+    public RetailPrice getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(RetailPrice retailPrice) {
+        this.retailPrice = retailPrice;
+    }
 
     public String getCountry() {
         return country;

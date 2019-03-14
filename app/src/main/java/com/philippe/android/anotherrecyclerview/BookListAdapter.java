@@ -56,7 +56,6 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookIt
         VolumeInfo bookInfo = mCurrentBook.getVolumeInfo();
         if (bookInfo != null) {
             bookItemViewHolder.bookItemTitle.setText(String.valueOf(bookInfo.getTitle() == null ? "" : bookInfo.getTitle()));
-            //bookItemViewHolder.bookItemDescription.setText(String.valueOf(bookInfo.getDescription() == null ? "" : bookInfo.getDescription()));
             ImageLinks bookImageLinks = bookInfo.getImageLinks();
 
             if (bookImageLinks != null) {

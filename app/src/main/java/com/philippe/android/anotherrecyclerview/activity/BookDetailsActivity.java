@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -13,19 +14,32 @@ import com.philippe.android.anotherrecyclerview.BookListAdapter;
 import com.philippe.android.anotherrecyclerview.R;
 import com.philippe.android.anotherrecyclerview.model.Book;
 import com.philippe.android.anotherrecyclerview.model.ImageLinks;
+import com.philippe.android.anotherrecyclerview.model.RetailPrice;
+import com.philippe.android.anotherrecyclerview.model.SaleInfo;
 import com.philippe.android.anotherrecyclerview.model.VolumeInfo;
+
+import java.util.ArrayList;
 
 public class BookDetailsActivity extends AppCompatActivity {
 
-    TextView textView;
+    TextView mDescriptionTextView;
     ImageView mBookImageView;
+    TextView mRatingsCount;
+    TextView mTitleAndAuthorTextView;
+    TextView mPriceTextView;
+    RatingBar mRatingBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_details);
-        textView = findViewById(R.id.book_description);
+        mDescriptionTextView = findViewById(R.id.book_description);
         mBookImageView = findViewById(R.id.book_detail_image);
+        mRatingsCount = findViewById(R.id.rating_count);
+        mTitleAndAuthorTextView = findViewById(R.id.author_and_title);
+        mPriceTextView = findViewById(R.id.book_price);
+        mRatingBar = findViewById(R.id.rating);
 
         Intent intent = getIntent();
 
@@ -37,10 +51,36 @@ public class BookDetailsActivity extends AppCompatActivity {
             if (book != null) {
 
                 VolumeInfo bookInfo = book.getVolumeInfo();
+                SaleInfo saleInfo = book.getSaleInfo();
 
+                if (saleInfo != null) {
+                    RetailPrice retailPrice = saleInfo.getRetailPrice();
+                    if (retailPrice != null) {
+                        mPriceTextView.setText(String.valueOf(retailPrice.getAmount() + " " + retailPrice.getCurrencyCode()));
+                    }
+
+                }
 
                 if (bookInfo != null) {
-                    textView.setText(String.valueOf(bookInfo.getTitle()));
+                    mDescriptionTextView.setText(String.valueOf(bookInfo.getDescription()));
+                    mRatingsCount.setText(
+                            String.valueOf(bookInfo.getRatingsCount() == null ? 0 : bookInfo.getRatingsCount())
+                                    + " "
+                                    + getString(R.string.reviews_label));
+                    Integer averageRating = (int) bookInfo.getAverageRating();
+                    if (averageRating != null)
+                        mRatingBar.setNumStars((averageRating == null ? 0 : averageRating));
+
+                    String title = bookInfo.getTitle();
+
+                    StringBuilder builder = new StringBuilder();
+
+                    builder = builder.append(title).append(".");
+
+                    for (String author : (bookInfo.getAuthors() == null ? new ArrayList<String>() : bookInfo.getAuthors())) {
+                        builder.append('\n').append(author);
+                    }
+                    mTitleAndAuthorTextView.setText(String.valueOf(builder.toString()));
                     bookImageLinks = bookInfo.getImageLinks();
 
 
