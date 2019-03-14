@@ -17,7 +17,7 @@
             <ImageView
                 android:id="@+id/book_detail_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/book_preview"
                 android:src="@drawable/adult_blur_books" />
@@ -35,49 +35,55 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
             <LinearLayout
+                android:id="@+id/rating_and_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/book_detail_image"
+                android:layout_below="@id/divider"
                 android:layout_margin="@dimen/card_margin"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <RatingBar
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:isIndicator="true"
+                    android:numStars="4"
+                    android:progressBackgroundTint="@color/colorAccent"
+                    android:rating="0"
+                    android:stepSize="0.5" />
 
                 <TextView
-                    android:id="@+id/author_and_title"
-                    android:layout_width="match_parent"
+                    android:id="@+id/rating_count"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/author_title_sample"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/rating_count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/rating_count_sample"
-                        android:textColor="@android:color/white"
-                        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                </LinearLayout>
-
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/rating_count_sample"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/author_and_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rating_and_reviews"
+                android:layout_margin="@dimen/card_margin"
+                android:text="@string/author_title_sample"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/book_detail_image"
+                android:layout_margin="@dimen/card_margin"
+                android:background="@color/colorPrimary" />
 
         </RelativeLayout>
 

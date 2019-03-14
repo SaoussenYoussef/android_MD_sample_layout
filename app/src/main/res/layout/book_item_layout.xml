@@ -11,16 +11,25 @@
 
         <ImageView
             android:id="@+id/book_detail_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/book_preview" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/book_detail_image"
+            android:layout_margin="@dimen/card_margin"
+            android:background="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/book_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/book_detail_image"
+            android:layout_below="@id/divider"
             android:layout_marginStart="@dimen/card_margin"
             android:layout_marginLeft="@dimen/card_margin"
             android:layout_marginTop="@dimen/card_margin"
@@ -28,17 +37,16 @@
             android:layout_marginRight="@dimen/card_margin"
             android:layout_marginBottom="@dimen/card_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+            android:textColor="#263238"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/book_short_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/book_detail_image"
-            android:layout_margin="@dimen/card_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+        <!-- <TextView
+             android:id="@+id/book_short_description"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/book_title"
+             android:layout_margin="@dimen/card_margin"
+             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />-->
 
 
     </RelativeLayout>

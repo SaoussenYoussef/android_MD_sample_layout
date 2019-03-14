@@ -1,10 +1,12 @@
-package com.philippe.android.anotherrecyclerview;
+package com.philippe.android.anotherrecyclerview.activity;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +16,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philippe.android.anotherrecyclerview.Loader.BooksLoader;
+import com.philippe.android.anotherrecyclerview.model.Book;
+import com.philippe.android.anotherrecyclerview.BookListAdapter;
+import com.philippe.android.anotherrecyclerview.R;
+import com.philippe.android.anotherrecyclerview.model.BookList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class BookListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<BookList> {
 
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
@@ -38,18 +46,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 initData();
-
-
             }
         });
 
         mAdapter = new BookListAdapter(mBookList, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        loadData();
+        initData();
 
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.UP,
@@ -81,25 +85,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
-        loadData();
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
-    private void loadData() {
-        TypedArray bookImages = getResources().obtainTypedArray(R.array.book_images);
-        String[] bookTitles = getResources().getStringArray(R.array.books_titles);
-        String[] bookDescriptions = getResources().getStringArray(R.array.books_descriptions);
-        mBookList.clear();
-        for (int i = 0; i < bookImages.length(); i++) {
-            mBookList.add(new Book(bookTitles[i], bookDescriptions[i], bookImages.getResourceId(i, 0)));
-        }
-
-        bookImages.recycle();
-
-        mAdapter.notifyDataSetChanged();
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,5 +109,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @NonNull
+    @Override
+    public Loader<BookList> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new BooksLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<BookList> loader, BookList books) {
+        //TODO fill adapter with returned books
+        mBookList.clear();
+        if (books.getTotalItems() != 0)
+            mBookList.addAll(books.getItems());
+        mAdapter.notifyDataSetChanged();
+
+
+    }
+
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<BookList> loader) {
+
     }
 }
