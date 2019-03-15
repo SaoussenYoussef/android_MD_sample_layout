@@ -12,6 +12,10 @@
     <string name="published_date_and_publisher_sample">Lafond on 12/04/2015</string>
     <string name="isbn_sample">1542484569842</string>
     <string name="reviews_label">Reviews</string>
+    <string name="search_title">Search Google Books</string>
+    <string name="mark_as_favorite">Mark as Favorite</string>
+    <string name="go_to_favorites">Go to favorites</string>
+    <string name="favorites">Favorites</string>
 
 
     <array name="book_images">

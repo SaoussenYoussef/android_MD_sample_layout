@@ -1,10 +1,13 @@
 package com.philippe.android.anotherrecyclerview.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -12,13 +15,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.philippe.android.anotherrecyclerview.BookListAdapter;
 import com.philippe.android.anotherrecyclerview.R;
+import com.philippe.android.anotherrecyclerview.ViewModel.FavoriteViewModel;
 import com.philippe.android.anotherrecyclerview.model.Book;
 import com.philippe.android.anotherrecyclerview.model.ImageLinks;
 import com.philippe.android.anotherrecyclerview.model.RetailPrice;
 import com.philippe.android.anotherrecyclerview.model.SaleInfo;
 import com.philippe.android.anotherrecyclerview.model.VolumeInfo;
+import com.philippe.android.anotherrecyclerview.room.entity.Favorite;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BookDetailsActivity extends AppCompatActivity {
 
@@ -28,6 +35,9 @@ public class BookDetailsActivity extends AppCompatActivity {
     TextView mTitleAndAuthorTextView;
     TextView mPriceTextView;
     RatingBar mRatingBar;
+    Book mCurrentBook;
+
+    private FavoriteViewModel mViewModel;
 
 
     @Override
@@ -41,17 +51,20 @@ public class BookDetailsActivity extends AppCompatActivity {
         mPriceTextView = findViewById(R.id.book_price);
         mRatingBar = findViewById(R.id.rating);
 
+        mViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+
         Intent intent = getIntent();
+
 
         Uri uri;
         ImageLinks bookImageLinks;
         if (intent != null) {
-            Book book = (Book) intent.getSerializableExtra(BookListAdapter.BOOK);
+            mCurrentBook = (Book) intent.getSerializableExtra(BookListAdapter.BOOK);
 
-            if (book != null) {
+            if (mCurrentBook != null) {
 
-                VolumeInfo bookInfo = book.getVolumeInfo();
-                SaleInfo saleInfo = book.getSaleInfo();
+                VolumeInfo bookInfo = mCurrentBook.getVolumeInfo();
+                SaleInfo saleInfo = mCurrentBook.getSaleInfo();
 
                 if (saleInfo != null) {
                     RetailPrice retailPrice = saleInfo.getRetailPrice();
@@ -101,5 +114,28 @@ public class BookDetailsActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.book_details_menu, menu);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+        Date now = new Date();
+        String dateAsString = formatter.format(now);
+
+        if (id == R.id.favorite)
+            mViewModel.insert(new Favorite(mCurrentBook.getId(), dateAsString, dateAsString));
+
+        return super.onOptionsItemSelected(item);
     }
 }

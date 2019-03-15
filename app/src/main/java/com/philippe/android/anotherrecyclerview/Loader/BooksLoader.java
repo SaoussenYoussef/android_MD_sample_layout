@@ -16,9 +16,11 @@ import java.io.IOException;
 public class BooksLoader extends AsyncTaskLoader<BookList> {
 
     private static final String LOG_TAG = BooksLoader.class.getSimpleName();
+    private String mQuery;
 
-    public BooksLoader(@NonNull Context context) {
+    public BooksLoader(@NonNull Context context, String query) {
         super(context);
+        mQuery = query;
     }
 
     @Nullable
@@ -28,7 +30,7 @@ public class BooksLoader extends AsyncTaskLoader<BookList> {
         BookList books = null;
 
         try {
-            String booksAsJSON = NetworkUtils.getBooks();
+            String booksAsJSON = NetworkUtils.getBooks(mQuery);
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
