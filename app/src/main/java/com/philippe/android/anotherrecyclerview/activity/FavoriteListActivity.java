@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.philippe.android.anotherrecyclerview.R;
-import com.philippe.android.anotherrecyclerview.ViewModel.FavoriteAdapter;
+import com.philippe.android.anotherrecyclerview.adapter.FavoriteAdapter;
 import com.philippe.android.anotherrecyclerview.ViewModel.FavoriteViewModel;
 import com.philippe.android.anotherrecyclerview.room.entity.Favorite;
 

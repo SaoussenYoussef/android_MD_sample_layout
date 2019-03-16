@@ -115,6 +115,11 @@ public class NetworkUtils {
             //runs the request
             connection.connect();
 
+            InputStream inputStream = connection.getInputStream();
+
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+
             StringBuilder builder = new StringBuilder();
 
             String line;

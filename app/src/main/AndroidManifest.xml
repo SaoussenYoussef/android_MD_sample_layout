@@ -12,7 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.FavoriteListActivity"></activity>
+        <activity
+            android:name=".activity.FavoriteListActivity"
+            android:parentActivityName=".activity.BookListActivity">
+
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.BookListActivity" />
+        </activity>
         <activity
             android:name=".activity.BookDetailsActivity"
             android:label="@string/book_details"

@@ -13,7 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.philippe.android.anotherrecyclerview.BookListAdapter;
+import com.philippe.android.anotherrecyclerview.adapter.BookListAdapter;
 import com.philippe.android.anotherrecyclerview.R;
 import com.philippe.android.anotherrecyclerview.ViewModel.FavoriteViewModel;
 import com.philippe.android.anotherrecyclerview.model.Book;
@@ -82,7 +82,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                                     + getString(R.string.reviews_label));
                     Integer averageRating = (int) bookInfo.getAverageRating();
                     if (averageRating != null)
-                        mRatingBar.setNumStars((averageRating == null ? 0 : averageRating));
+                        mRatingBar.setRating((averageRating == null ? 0 : averageRating));
 
                     String title = bookInfo.getTitle();
 

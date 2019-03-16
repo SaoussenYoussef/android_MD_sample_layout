@@ -1,4 +1,4 @@
-package com.philippe.android.anotherrecyclerview;
+package com.philippe.android.anotherrecyclerview.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.philippe.android.anotherrecyclerview.R;
 import com.philippe.android.anotherrecyclerview.activity.BookDetailsActivity;
 import com.philippe.android.anotherrecyclerview.model.Book;
 import com.philippe.android.anotherrecyclerview.model.ImageLinks;

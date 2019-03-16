@@ -22,7 +22,7 @@ import android.view.MenuItem;
 
 import com.philippe.android.anotherrecyclerview.Loader.BooksLoader;
 import com.philippe.android.anotherrecyclerview.model.Book;
-import com.philippe.android.anotherrecyclerview.BookListAdapter;
+import com.philippe.android.anotherrecyclerview.adapter.BookListAdapter;
 import com.philippe.android.anotherrecyclerview.R;
 import com.philippe.android.anotherrecyclerview.model.BookList;
 

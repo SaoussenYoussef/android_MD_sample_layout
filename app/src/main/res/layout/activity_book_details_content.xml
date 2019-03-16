@@ -44,21 +44,22 @@
 
                 <RatingBar
                     android:id="@+id/rating"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:isIndicator="true"
-                    android:numStars="4"
+                    android:numStars="5"
                     android:progressBackgroundTint="@color/colorAccent"
-                    android:rating="1"
+                    android:progressTint="@color/colorAccent"
+                    android:rating="2.5"
                     android:stepSize="1" />
 
                 <TextView
                     android:id="@+id/rating_count"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3.5"
                     android:gravity="center"
                     android:text="@string/rating_count_sample"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />

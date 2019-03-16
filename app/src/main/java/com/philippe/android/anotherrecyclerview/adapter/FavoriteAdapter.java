@@ -1,4 +1,4 @@
-package com.philippe.android.anotherrecyclerview.ViewModel;
+package com.philippe.android.anotherrecyclerview.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +26,7 @@ import com.philippe.android.anotherrecyclerview.model.VolumeInfo;
 import com.philippe.android.anotherrecyclerview.room.entity.Favorite;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
@@ -35,7 +36,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private LayoutInflater mInflater;
     private Context mContext;
     Favorite mCurrentFavorite;
-    private Book mCurrentBook;
+    //private Book mCurrentBook;
     private CurrentBookChangeListener listener;
 
 
@@ -67,30 +68,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
         String bookId = mCurrentFavorite.getIdBook();
 
-        new BookByIdAsynctask(this).execute(bookId);
+        new BookByIdAsyncTask(favoriteViewHolder, position).execute(bookId);
 
-        if(listener!=null)
-            listener.setCurrentBook();
-
-
-        VolumeInfo bookInfo = mCurrentBook.getVolumeInfo();
-        if (bookInfo != null) {
-            favoriteViewHolder.bookItemTitle.setText(String.valueOf(bookInfo.getTitle() == null ? "" : bookInfo.getTitle()));
-            ImageLinks bookImageLinks = bookInfo.getImageLinks();
-
-            if (bookImageLinks != null) {
-                if (bookImageLinks.getThumbnail() != null) {
-                    uri = Uri.parse(bookImageLinks.getThumbnail());
-                    Glide.with(mContext).load(uri).into(favoriteViewHolder.bookImage);
-                } else {
-                    TypedArray bookImages = mContext.getResources().obtainTypedArray(R.array.book_images);
-                    int i = 1;
-                    Glide.with(mContext).load(bookImages.getResourceId(i, 0)).into(favoriteViewHolder.bookImage);
-                }
-
-
-            }
-        }
+//        if (listener != null)
+//            listener.setCurrentBook();
 
     }
 
@@ -128,47 +109,73 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         }
     }
 
-    private class BookByIdAsynctask extends AsyncTask<String, Void, Book> {
+    private class BookByIdAsyncTask extends AsyncTask<String, Void, Book> {
 
-        private String LOG_TAG = BookByIdAsynctask.class.getSimpleName();
-        private Book book;
+        private String LOG_TAG = BookByIdAsyncTask.class.getSimpleName();
+        //private Book book = null;
         private FavoriteAdapter favoriteAdapter;
+        private int mPosition;
+        private WeakReference<FavoriteViewHolder> mFavoriteViewHolder;
 
 
-        public BookByIdAsynctask(FavoriteAdapter favoriteAdapter) {
+        public BookByIdAsyncTask(FavoriteViewHolder favoriteViewHolder, int position) {
+            mFavoriteViewHolder = new WeakReference<FavoriteViewHolder>(favoriteViewHolder);
+            mPosition = position;
 
-
-            this.favoriteAdapter = favoriteAdapter;
         }
 
         @Override
         protected Book doInBackground(String... strings) {
-            String bookAsJson = NetworkUtils.getBook(strings[0]);
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
+            Book book = null;
             try {
+                String bookAsJson = NetworkUtils.getBook(strings[0]);
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 book = mapper.readValue(bookAsJson, Book.class);
+
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e(LOG_TAG, "Parsing failed", e);
             }
 
             return book;
+
         }
 
         @Override
         protected void onPostExecute(final Book receivedBook) {
 
-            favoriteAdapter.listener = new CurrentBookChangeListener() {
-                @Override
-                public void setCurrentBook() {
-                    favoriteAdapter.mCurrentBook = receivedBook;
+            Uri uri = null;
+
+
+            VolumeInfo bookInfo = receivedBook.getVolumeInfo();
+            if (bookInfo != null) {
+                mFavoriteViewHolder.get().bookItemTitle.setText(String.valueOf(bookInfo.getTitle() == null ? "" : bookInfo.getTitle()));
+                ImageLinks bookImageLinks = bookInfo.getImageLinks();
+
+                if (bookImageLinks != null) {
+                    if (bookImageLinks.getThumbnail() != null) {
+                        uri = Uri.parse(bookImageLinks.getThumbnail());
+                        Glide.with(mContext).load(uri).into(mFavoriteViewHolder.get().bookImage);
+                    } else {
+                        TypedArray bookImages = mContext.getResources().obtainTypedArray(R.array.book_images);
+                        int i = 1;
+                        Glide.with(mContext).load(bookImages.getResourceId(i, 0)).into(mFavoriteViewHolder.get().bookImage);
+                    }
 
 
                 }
-            };
+            }
+
+//            favoriteAdapter.listener = new CurrentBookChangeListener() {
+//                @Override
+//                public void setCurrentBook() {
+//                    favoriteAdapter.mCurrentBook = receivedBook;
+//
+//
+//                }
+//            };
         }
     }
 
